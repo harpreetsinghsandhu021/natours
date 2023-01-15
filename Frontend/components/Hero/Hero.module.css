@@ -1,0 +1,43 @@
+.section__hero {
+  min-height: 100vh;
+  /* width: 100%; */
+  display: flex;
+  align-items: center;
+
+  justify-content: flex-start;
+}
+.hero__img {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  height: 100%;
+}
+.cnt__box {
+  padding-left: 8rem;
+  width: 60rem;
+}
+.cnt__box h4 {
+  font-weight: 500;
+  font-size: 5.4rem;
+}
+.cnt__box p {
+  padding: 4rem 0;
+  color: var(--text--color);
+}
+.cnt__box button {
+  padding: 1.8rem 3.5rem;
+  font-size: 2rem;
+  outline: none;
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.515);
+  font-weight: 700;
+  background-color: var(--btn--color);
+  text-transform: capitalize;
+}
+.cnt__box button:hover {
+  color: #fff;
+  box-shadow: none;
+}

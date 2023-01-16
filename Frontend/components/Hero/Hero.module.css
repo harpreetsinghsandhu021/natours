@@ -11,12 +11,13 @@
   width: 100%;
   top: 0;
   left: 0;
-  z-index: -1;
+  z-index: 1;
   height: 100%;
 }
 .cnt__box {
   padding-left: 8rem;
   width: 60rem;
+  z-index: 3;
 }
 .cnt__box h4 {
   font-weight: 500;

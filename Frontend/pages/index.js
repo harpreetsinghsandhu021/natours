@@ -4,13 +4,13 @@ import Header from "@/components/shared/UI/Header";
 import Hero from "@/components/Hero/Hero";
 import SectionCards from "@/components/tourCards/sectionCards";
 const LatoClass = Lato({
-  weight: "400",
+  weight: ["400"],
   subsets: ["latin"],
 });
 export default function Home({ tours }) {
   return (
     <>
-      <main className={LatoClass.className}>
+      <main className={`${LatoClass.className} ${styles.main__home}`}>
         <Header />
         <Hero />
         <SectionCards tours={tours} />
@@ -20,7 +20,7 @@ export default function Home({ tours }) {
 }
 
 export async function getServerSideProps() {
-  const fetchApi = await fetch(`${process.env.API_URl}/api/tours`);
+  const fetchApi = await fetch(`${process.env.API_URL}/api/tours`);
 
   const data = await fetchApi.json();
 

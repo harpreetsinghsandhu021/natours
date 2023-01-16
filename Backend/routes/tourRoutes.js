@@ -25,7 +25,7 @@ router
   .patch(
     authController.protect,
     authController.restrictTo("admin"),
-    tourController.uploadImageCover,
+    tourController.uploadTourImages,
     tourController.resizeImageCover,
     tourController.updateTour
   )

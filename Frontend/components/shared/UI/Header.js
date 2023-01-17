@@ -1,11 +1,17 @@
 import React from "react";
 import Link from "next/link";
 
-const Header = () => {
+const Header = ({ color }) => {
   return (
-    <header className="header">
+    <header className={`${color && "header-black-color"} header`}>
       <div className="logo-box">
-        <img src="/images/logo.png" alt="logo" />
+        {color ? (
+          <Link href="/">
+            <img src="/images/logo-black.png" alt="logo" />{" "}
+          </Link>
+        ) : (
+          <img src="/images/logo.png" alt="logo" />
+        )}
       </div>
       <ul className="links">
         <li className="link">
@@ -21,7 +27,7 @@ const Header = () => {
         </li>
       </ul>
       <div className="btns-wrapper">
-        <Link className="btn-log-in" href="#">
+        <Link className={`${color && "btn-log-in--black"} btn-log-in`} href="#">
           log In
         </Link>
         <Link className="btn-sign-up" href="#">

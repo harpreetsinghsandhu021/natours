@@ -19,7 +19,7 @@ class ApiFeatures {
       const sortBy = this.queryStr.sort.split(",").join(" ");
       this.query = this.query.sort(sortBy);
     } else {
-      this.query = this.query.sort("-price");
+      this.query = this.query.sort("price");
     }
     return this;
   }

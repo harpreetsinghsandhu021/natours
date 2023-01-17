@@ -12,8 +12,12 @@
     "@next/font": "13.1.2",
     "eslint": "8.31.0",
     "eslint-config-next": "13.1.2",
+    "moment": "^2.29.4",
     "next": "13.1.2",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-icons": "^4.7.1",
+    "react-leaflet": "^4.2.0",
+    "react-stars": "^2.2.5"
   }
 }

@@ -2,6 +2,7 @@ const express = require("express");
 const tourRouter = require("./routes/tourRoutes");
 const userRouter = require("./routes/userRoutes");
 const reviewRouter = require("./routes/reviewRoutes");
+const path = require("path");
 const AppError = require("./utils/AppError");
 const rateLimit = require("express-rate-limit");
 
@@ -10,6 +11,7 @@ const globalErrorHandler = require("./controllers/errorController");
 const app = express();
 
 app.use(express.json());
+app.use(express.static("public"));
 
 const limiter = rateLimit({
   max: 100,

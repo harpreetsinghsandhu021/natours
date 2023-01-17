@@ -1,7 +1,7 @@
 const catchAsync = require("../utils/catchAsync");
 const ApiFeatures = require("../utils/apiFeatures");
 
-exports.getAll = (model) =>
+exports.getAll = (model, popOptions) =>
   catchAsync(async (req, res, next) => {
     let filter = {};
 
@@ -12,6 +12,8 @@ exports.getAll = (model) =>
       .sort()
       .limit()
       .paginate();
+
+    if (popOptions) features.query.populate(popOptions);
 
     const docs = await features.query;
 

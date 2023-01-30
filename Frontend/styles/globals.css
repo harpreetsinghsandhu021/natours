@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap");
+
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -40,8 +42,8 @@ body {
 body {
   color: #fff;
   /* background: linear-gradient(to bottom, transparent, #000) #000; */
-
   font-size: 1.8rem;
+  font-family: "Lexend", sans-serif;
 }
 
 a {
@@ -72,12 +74,30 @@ a {
   list-style: none;
   display: flex;
 }
+.link--me {
+  display: flex;
+  align-items: center;
+}
+.link--me img {
+  width: 6rem;
+  margin-left: 2rem;
+  height: auto;
+  border-radius: 50%;
+}
 .links .link {
   padding-left: 4rem;
-  background-blend-mode: hard-light;
+  color: transparent;
+  mix-blend-mode: difference;
+  background-color: #fff;
+  -webkit-background-clip: text;
+  mix-blend-mode: difference;
 }
 .links .link:hover {
   color: var(--btn--color);
+}
+.btns-wrapper {
+  display: flex;
+  align-items: center;
 }
 .btns-wrapper > * {
   text-transform: capitalize;
@@ -88,10 +108,20 @@ a {
   padding: 1.2rem 2.8rem;
   border-radius: var(--btn--border-radius);
 }
+.btn--ctx-log-in {
+  margin-right: 4rem;
+  border: 2px solid #fff;
+  font-size: 1.8rem;
+  background-color: transparent;
+  padding: 1.2rem 2.8rem;
+  color: #fff;
+  border-radius: var(--btn--border-radius);
+}
 .btn-log-in--black {
   border: 2px solid #000;
 }
-.btn-log-in:hover {
+.btn-log-in:hover,
+.btn--ctx-log-in:hover {
   background-color: var(--btn--color);
   color: #000;
   border: 2px solid #000;
@@ -122,3 +152,8 @@ a {
   align-items: center;
   gap: 3rem;
 } */
+.footer {
+  display: flex;
+  padding: 6rem;
+  justify-content: space-between;
+}

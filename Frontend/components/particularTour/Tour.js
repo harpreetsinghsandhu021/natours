@@ -2,6 +2,7 @@ import React from "react";
 import classes from "./Tour.module.css";
 import TourHero from "./TourHero";
 import TourInfo from "./TourInfo";
+import Reviews from "./Reviews";
 import TourMap from "./Map";
 
 const Tour = ({ tour }) => {
@@ -21,7 +22,8 @@ const Tour = ({ tour }) => {
           images={tour[0].images}
           guides={tour[0].guides}
         />
-        <TourMap />
+        {/* <TourMap /> */}
+        <Reviews tourId={tour[0].id} reviews={tour[0].reviews} />
       </section>
     </>
   );

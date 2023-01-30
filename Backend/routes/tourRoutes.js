@@ -19,20 +19,16 @@ router
 router.route("/get-tour-stats").get(tourController.getTourStats);
 router.route("/getMonthlyPlan/:year").get(tourController.getMonthlyPlan);
 
+router.use(authController.protect);
 router
   .route("/:id")
   .get(tourController.getOneTour)
   .patch(
-    authController.protect,
     authController.restrictTo("admin"),
     tourController.uploadTourImages,
     tourController.resizeImageCover,
     tourController.updateTour
   )
-  .delete(
-    authController.protect,
-    authController.restrictTo("admin"),
-    tourController.deleteTour
-  );
+  .delete(authController.restrictTo("admin"), tourController.deleteTour);
 
 module.exports = router;

@@ -1,7 +1,12 @@
 const catchAsync = require("../utils/catchAsync");
+const multer = require("multer");
 const AppError = require("../utils/AppError");
+const sharp = require("sharp");
 const User = require("../models/userModel");
+const validator = require("validator");
 const jwt = require("jsonwebtoken");
+
+const storage = multer.memoryStorage();
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -29,11 +34,14 @@ const createSendToken = (user, statusCode, req, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
+  if (!req.file) return next(new AppError("please upload a photo", 401));
+
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
+    photo: req.file.fileName,
   });
 
   createSendToken(newUser, 201, req, res);
@@ -46,10 +54,18 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError("please provide email or password", 400));
   }
 
+  if (!validator.isEmail(email)) {
+    return next(new AppError("not an email. please provide a valid email."));
+  }
+
   const user = await User.findOne({ email }).select("+password");
 
-  if (!user && !user.correctPassword(user.password, password)) {
-    return next(new AppError("Incorrect email or password"));
+  if (!user) {
+    return next(new AppError("no user found! please sign up instead", 400));
+  }
+
+  if (!user || !(await user.correctPassword(password, user.password))) {
+    return next(new AppError("Incorrect email or password", 400));
   }
 
   createSendToken(user, 200, req, res);

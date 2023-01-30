@@ -1,19 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
-import { Lato } from "@next/font/google";
+import Script from "next/script";
+import { useContext } from "react";
+import { AuthContext } from "@/components/shared/context/authContext";
+import { Lexend } from "@next/font/google";
 import Header from "@/components/shared/UI/Header";
+import Footer from "@/components/shared/UI/Footer";
 import Tour from "../../components/particularTour/Tour";
+import { useRouter } from "next/router";
 
-const LatoClass = Lato({
-  weight: ["400", "700"],
+const LexendFont = Lexend({
+  weight: ["400", "500", "600", "700", "800"],
   subsets: ["latin"],
 });
 const tour = ({ tour }) => {
+  const router = useRouter();
+  const authCtx = useContext(AuthContext);
+  useEffect(() => {
+    let isLoggedIn = localStorage.getItem("token");
+
+    if (!isLoggedIn) {
+      router.push("/");
+    }
+  }, []);
+
   return (
     <>
-      <main className={`${LatoClass.className} main--tour--page`}>
+      <Head></Head>
+      <main className={`main--tour--page`}>
         <Header color="#000" />
         <Tour tour={tour} />
+        <Footer black />
       </main>
     </>
   );

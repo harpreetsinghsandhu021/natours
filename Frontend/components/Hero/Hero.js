@@ -5,7 +5,17 @@ const Hero = () => {
     <section className={classes.section__hero}>
       <img
         className={classes.hero__img}
-        src="/images/bg-home.webp"
+        src="/images/bg1.png"
+        alt="bg-home"
+      />
+      <img
+        className={classes.hero__img}
+        src="/images/rock1.png"
+        alt="rock"
+      />
+      <img
+        className={classes.hero__img}
+        src="/images/girl1.png"
         alt="bg-home"
       />
       <div className={classes.cnt__box}>

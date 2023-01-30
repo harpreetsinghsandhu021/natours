@@ -31,8 +31,8 @@
   grid-gap: 1rem;
 }
 .card p {
-  line-height: 1;
   padding: 0.6rem 0;
+  font-weight: 700;
 }
 .svg__card {
   fill: var(--btn--color);

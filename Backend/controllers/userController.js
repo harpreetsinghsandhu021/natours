@@ -46,7 +46,11 @@ exports.uploadSingle = upload.single("photo");
 exports.resizePhoto = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
 
-  req.file.fileName = `user-${req.user.id}-${Date.now()}.jpeg`;
+  if (req.user) {
+    req.file.fileName = `user-${req.user.id}-${Date.now()}.jpeg`;
+  } else {
+    req.file.fileName = `user-${req.body.name}-${Date.now()}.jpeg`;
+  }
 
   await sharp(req.file.buffer)
     .toFormat("jpeg")

@@ -1,24 +1,30 @@
 import React, { useState, useEffect, useRef } from "react";
 import classes from "./Map.module.css";
-import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
+
+import googleMapReact from "google-map-react";
+
 const TourMap = () => {
   const mapRef = useRef();
 
-  useEffect(() => {}, []);
+  const center = [-34.397, 150.644];
+
+  const zoom = 8;
+
+  useEffect(() => {
+    const map = new window.google.maps.Map(mapRef.current, {
+      center: new google.maps.LatLng(-34.397, 150.644),
+      zoom,
+    });
+  }, [center, zoom]);
 
   return (
     <div className={classes.map_wrap} ref={mapRef}>
-      <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={[51.505, -0.09]}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
-      </MapContainer>
+      <googleMapReact
+        bootstrapURLKeys={{ key: "AIzaSyAwEggtL6Vrzu6sGm3Wf3zbl5VeGgMFOEk" }}
+        defaultCenter={center}
+        center={center}
+        zoom={zoom}
+      />
     </div>
   );
 };

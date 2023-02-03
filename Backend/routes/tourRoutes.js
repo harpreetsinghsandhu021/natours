@@ -12,6 +12,8 @@ router
   .get(tourController.getAllTours)
   .post(
     authController.protect,
+    tourController.uploadTourImages,
+    tourController.resizeImageCover,
     authController.restrictTo("admin"),
     tourController.createTour
   );

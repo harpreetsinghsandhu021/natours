@@ -1,32 +1,42 @@
 import { useState, useEffect } from "react";
-import cookies from "next-cookies";
+import { setCookie, deleteCookie, getCookie } from "cookies-next";
 export const useAuth = () => {
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [userRole, setUserRole] = useState(null);
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  function login(token, userId) {
+  function login(token, userId, uRole) {
     setToken(token);
     setUserId(userId);
+    setUserRole(uRole);
     setIsLoggedIn(true);
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", userId);
+
+    setCookie("token", token);
+    setCookie("user", userId);
+    setCookie("role", uRole);
   }
   function logout() {
     setToken(null);
     setUserId(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    setUserRole(null);
+    setIsLoggedIn(false);
+
+    deleteCookie("token");
+    deleteCookie("user");
+    deleteCookie("role");
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("user");
+    const token = getCookie("token");
+    const userId = getCookie("user");
+    const userRole = getCookie("role");
 
     if (token) {
-      login(token, userId);
+      login(token, userId, userRole);
     }
   }, [isLoggedIn]);
 
-  return { token, userId, login, logout };
+  return { token, userId, userRole, login, logout };
 };

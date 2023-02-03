@@ -29,6 +29,29 @@ const Modal = (props) => {
     );
   }
 
+  if (props.confirm) {
+    return (
+      <>
+        {props.asOverlay && (
+          <div
+            onClick={() => props.onCancel()}
+            className={classes.overlay}
+          ></div>
+        )}
+        <div className={classes.modal}>
+          <TiTick fill="#57d6bf" className={classes.scs_svg} />
+          <div className={classes.modal__cnt}>
+            <h4>tour created succesfully.</h4>
+          </div>
+          <ImCross
+            onClick={() => props.onCancel()}
+            className={classes.cncl__btn}
+          />
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       {props.asOverlay && (

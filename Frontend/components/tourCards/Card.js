@@ -1,16 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import classes from "./Card.module.css";
 import { AiFillCalendar } from "react-icons/ai";
 import { FiMapPin } from "react-icons/fi";
+import { useContext } from "react";
 import ReactStars from "react-stars";
-import { AiTwotoneFlag } from "react-icons/ai";
+import { AuthContext } from "../shared/context/authContext";
+import { AiTwotoneFlag, AiFillDelete, AiFillEdit } from "react-icons/ai";
 import moment from "moment";
 import { GoPerson } from "react-icons/go";
 
 const Card = ({ tour }) => {
+  const authCtx = useContext(AuthContext);
+
+  function deleteTour(id) {
+    console.log(id);
+  }
+
   return (
     <div className={classes.card}>
+      {authCtx.userRole === "admin" && (
+        <span
+          onClick={() => deleteTour(tour.id)}
+          className={`${classes.svg__icon} ${classes.svg__icon__del}`}
+        >
+          <AiFillDelete />
+        </span>
+      )}
+      {authCtx.userRole === "admin" && (
+        <span
+          onClick={() => deleteTour(tour.id)}
+          className={`${classes.svg__icon} ${classes.svg__icon__edit}`}
+        >
+          <AiFillEdit />
+        </span>
+      )}
       <div className={classes.img__box}>
         <img
           src={`${process.env.NEXT_PUBLIC_API_URL}/img/tours/${tour.imageCover}`}
@@ -18,7 +42,7 @@ const Card = ({ tour }) => {
         />
       </div>
       <h2 className={classes.tour__name}>{tour.name}</h2>
-      <p>{tour.summary}</p>
+      <p className={classes.sumary}>{tour.summary}</p>
 
       <p>
         <span className="color--span">{tour.price}&#8377;</span> per person

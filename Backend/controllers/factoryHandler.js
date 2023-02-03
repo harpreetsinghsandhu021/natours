@@ -13,12 +13,15 @@ exports.getAll = (model, popOptions) =>
       .limit()
       .paginate();
 
+    const allDocs = await model.find();
+
     if (popOptions) features.query.populate(popOptions);
 
     const docs = await features.query;
 
     res.status(200).json({
       status: "success",
+      count: allDocs.length,
       results: docs.length,
       docs,
     });

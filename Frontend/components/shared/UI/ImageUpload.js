@@ -17,6 +17,7 @@ const ImageUpload = (props) => {
   }, [file]);
 
   function filePickHandler(e) {
+    e.preventDefault();
     let pickedFile;
 
     if (e.target.files && e.target.files.length === 1) {
@@ -41,7 +42,11 @@ const ImageUpload = (props) => {
           fileUplRef.current.click();
         }}
       >
-        <img src={`${previewUrl ? previewUrl : "/images/defa.png"} `} />
+        {props.mountain ? (
+          <img src={`${previewUrl ? previewUrl : "/images/default-m.jpg"} `} />
+        ) : (
+          <img src={`${previewUrl ? previewUrl : "/images/defa.png"} `} />
+        )}
       </button>
     </div>
   );

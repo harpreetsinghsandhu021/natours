@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Head from "next/head";
 import Script from "next/script";
 import { useContext } from "react";
+import { getCookie } from "cookies-next";
 import { AuthContext } from "@/components/shared/context/authContext";
 import { Lexend } from "@next/font/google";
 import Header from "@/components/shared/UI/Header";
@@ -17,7 +18,7 @@ const tour = ({ tour }) => {
   const router = useRouter();
   const authCtx = useContext(AuthContext);
   useEffect(() => {
-    let isLoggedIn = localStorage.getItem("token");
+    let isLoggedIn = getCookie("token");
 
     if (!isLoggedIn) {
       router.push("/");

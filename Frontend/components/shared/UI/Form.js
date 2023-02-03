@@ -4,15 +4,19 @@ import Modal from "./Modal";
 import ImageUpload from "./ImageUpload";
 import { AuthContext } from "../context/authContext";
 import { useForm } from "../hooks/useForm";
+import { isEmail, isValidName, isValidText } from "@/utils/validators";
 
 const Form = (props) => {
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showConfirmModal, setConfirmShowModal] = useState(false);
   const [showscsModal, setShowScsModal] = useState(false);
   const [error, setError] = useState();
   const [file, setFile] = useState();
+  const [imageOne, setImageOne] = useState();
+  const [imageTwo, setImageTwo] = useState();
+  const [imageThree, setImageThree] = useState();
 
   const authCtx = useContext(AuthContext);
-  const isEmail = (val) => val.includes("@");
 
   const {
     value: emailValue,
@@ -29,7 +33,7 @@ const Form = (props) => {
     inputHandler: passwordInputHandler,
     blurHandler: passwordBlurHandler,
     resetHandler: passwordResetHandler,
-  } = useForm(isEmail);
+  } = useForm(isValidText);
   const {
     value: passwordConfirmValue,
     isValid: passwordConfirmIsValid,
@@ -37,7 +41,7 @@ const Form = (props) => {
     inputHandler: passwordConfirmInputHandler,
     blurHandler: passwordConfirmBlurHandler,
     resetHandler: passwordConfirmResetHandler,
-  } = useForm(isEmail);
+  } = useForm(isValidText);
   const {
     value: UsernameValue,
     isValid: UsernameIsValid,
@@ -45,10 +49,67 @@ const Form = (props) => {
     inputHandler: UsernameInputHandler,
     blurHandler: UsernameBlurHandler,
     resetHandler: UsernameResetHandler,
-  } = useForm(isEmail);
+  } = useForm(isValidText);
+  const {
+    value: tourNameValue,
+    isValid: tourNameIsValid,
+    hasError: tourNameHasError,
+    inputHandler: tourNameInputHandler,
+    blurHandler: tourNameBlurHandler,
+    resetHandler: tourNameResetHandler,
+  } = useForm(isValidName);
+  const {
+    value: groupSizeValue,
+    isValid: groupSizeIsValid,
+    hasError: groupSizeHasError,
+    inputHandler: groupSizeInputHandler,
+    blurHandler: groupSizeBlurHandler,
+    resetHandler: groupSizeResetHandler,
+  } = useForm(isValidText);
+  const {
+    value: durationValue,
+    isValid: durationIsValid,
+    hasError: durationHasError,
+    inputHandler: durationInputHandler,
+    blurHandler: durationBlurHandler,
+    resetHandler: durationResetHandler,
+  } = useForm(isValidText);
+  const {
+    value: difficultyValue,
+    isValid: difficultyIsValid,
+    hasError: difficultyHasError,
+    inputHandler: difficultyInputHandler,
+    blurHandler: difficultyBlurHandler,
+    resetHandler: difficultyResetHandler,
+  } = useForm(isValidText);
+  const {
+    value: priceValue,
+    isValid: priceIsValid,
+    hasError: priceHasError,
+    inputHandler: priceInputHandler,
+    blurHandler: priceBlurHandler,
+    resetHandler: priceResetHandler,
+  } = useForm(isValidText);
+  const {
+    value: summaryValue,
+    isValid: summaryIsValid,
+    hasError: summaryHasError,
+    inputHandler: summaryInputHandler,
+    blurHandler: summaryBlurHandler,
+    resetHandler: summaryResetHandler,
+  } = useForm(isValidText);
+  const {
+    value: descValue,
+    isValid: descIsValid,
+    hasError: descHasError,
+    inputHandler: descInputHandler,
+    blurHandler: descBlurHandler,
+    resetHandler: descResetHandler,
+  } = useForm(isValidText);
 
   async function submitHandler(e) {
     e.preventDefault();
+
     let res;
 
     try {
@@ -68,7 +129,7 @@ const Form = (props) => {
         );
 
         res = await sendRequest.json();
-      } else {
+      } else if (props.signup) {
         const formData = new FormData();
 
         formData.append("email", emailValue);
@@ -90,7 +151,7 @@ const Form = (props) => {
 
       if (res.status === "success") {
         setShowScsModal(true);
-        authCtx.login(res.token, res.user._id);
+        authCtx.login(res.token, res.user._id, res.user.role);
 
         setTimeout(() => {
           window.location.href = "/";
@@ -104,13 +165,71 @@ const Form = (props) => {
     } catch (error) {}
   }
 
+  async function submitTourHandler(e) {
+    e.preventDefault();
+    const formData = new FormData();
+
+    formData.append("name", tourNameValue);
+    formData.append("maxGroupSize", groupSizeValue);
+    formData.append("duration", durationValue);
+    formData.append("difficulty", difficultyValue);
+    formData.append("price", priceValue);
+    formData.append("summary", summaryValue);
+    formData.append("description", descValue);
+    formData.append("imageCover", file);
+    formData.append("images", imageOne);
+    formData.append("images", imageTwo);
+    formData.append("images", imageThree);
+
+    const sendRequest = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/tours`,
+      {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${authCtx.token}`,
+        },
+      }
+    );
+
+    const res = await sendRequest.json();
+
+    console.log(res);
+
+    if (res.status === "success") {
+      setConfirmShowModal(true);
+      tourNameResetHandler();
+      groupSizeResetHandler();
+      durationResetHandler();
+      difficultyResetHandler();
+      priceResetHandler();
+      summaryResetHandler();
+      descResetHandler();
+    }
+
+    if (res.status === "fail" || res.status === "error") {
+      setShowErrorModal(true);
+      setError(res.message);
+    }
+  }
+
   function recieveFile(file) {
     setFile(file);
+  }
+  function recieveFileOne(file) {
+    setImageOne(file);
+  }
+  function recieveFileTwo(file) {
+    setImageTwo(file);
+  }
+  function recieveFileThree(file) {
+    setImageThree(file);
   }
 
   function cancelHandler() {
     setShowErrorModal(false);
     setShowScsModal(false);
+    setConfirmShowModal(false);
   }
   return (
     <>
@@ -120,29 +239,190 @@ const Form = (props) => {
       {showscsModal && (
         <Modal method="login" onCancel={cancelHandler} asOverlay />
       )}
+      {showConfirmModal && <Modal confirm onCancel={cancelHandler} asOverlay />}
       <div className={classes.form_wrapper}>
-        <h4>{props.signup ? "sign up" : "Login"}</h4>
+        <h4>
+          {props.addTour && "add tour"}
+          {props.signup && "sign up"}
+          {props.login && "login"}
+        </h4>
         <span>
-          hey, enter your credentials to{" "}
-          {props.signup ? "sign up for new account" : "login to your account"}
+          {props.signup || props.login
+            ? "hey, enter your credentials to"
+            : null}
+          {props.signup && "sign up for new account"}
+          {props.login && "login to your account"}
         </span>
-        <form onSubmit={submitHandler} className={classes.form}>
-          <div className={classes.input__name}>
-            <input
-              className={classes.email}
-              autoComplete="off"
-              id="email"
-              value={emailValue}
-              onInput={emailInputHandler}
-              onBlur={emailBlurHandler}
-              type="text"
-              required
-            />
-            <label className={classes.label_email}>
-              <span className={classes.lbl_em_span}>Email</span>
-              <div className={classes.line}></div>
-            </label>
-          </div>
+        <form onSubmit={(e) => e.preventDefault()} className={classes.form}>
+          {props.login || props.signup ? (
+            <>
+              <div className={classes.input__name}>
+                <input
+                  className={` ${emailHasError && classes.err_input}${
+                    classes.email
+                  }`}
+                  autoComplete="off"
+                  id="email"
+                  value={emailValue}
+                  onInput={emailInputHandler}
+                  onBlur={emailBlurHandler}
+                  type="text"
+                  required
+                />
+                <label className={classes.label_email}>
+                  <span className={classes.lbl_em_span}>Email</span>
+                  <div className={classes.line}></div>
+                </label>
+              </div>
+              {emailHasError && (
+                <p className="err-txt">please provide us your email. </p>
+              )}
+            </>
+          ) : null}
+
+          {props.addTour && (
+            <div className={classes.input__name}>
+              <input
+                className={classes.email}
+                autoComplete="off"
+                id="tourName"
+                value={tourNameValue}
+                onInput={tourNameInputHandler}
+                onBlur={tourNameBlurHandler}
+                type="text"
+                required
+              />
+              <label className={classes.label_email}>
+                <span className={classes.lbl_em_span}>Tour Name</span>
+                <div className={classes.line}></div>
+              </label>
+            </div>
+          )}
+          {props.addTour && (
+            <div className={classes.input__name}>
+              <input
+                className={classes.email}
+                autoComplete="off"
+                id="maxGroupSize"
+                value={groupSizeValue}
+                onInput={groupSizeInputHandler}
+                onBlur={groupSizeBlurHandler}
+                type="number"
+                required
+              />
+              <label className={classes.label_email}>
+                <span className={classes.lbl_em_span}>maxGroupSize</span>
+                <div className={classes.line}></div>
+              </label>
+            </div>
+          )}
+          {props.addTour && (
+            <div className={classes.input__name}>
+              <input
+                className={classes.email}
+                autoComplete="off"
+                id="duration"
+                value={durationValue}
+                onInput={durationInputHandler}
+                onBlur={durationBlurHandler}
+                type="number"
+                required
+              />
+              <label className={classes.label_email}>
+                <span className={classes.lbl_em_span}>duration</span>
+                <div className={classes.line}></div>
+              </label>
+            </div>
+          )}
+          {props.addTour && (
+            <div className={classes.input__name}>
+              <input
+                className={classes.email}
+                autoComplete="off"
+                id="diff"
+                value={difficultyValue}
+                onInput={difficultyInputHandler}
+                onBlur={difficultyBlurHandler}
+                type="text"
+                required
+              />
+              <label className={classes.label_email}>
+                <span className={classes.lbl_em_span}>Tour Difficulty</span>
+                <div className={classes.line}></div>
+              </label>
+            </div>
+          )}
+          {props.addTour && (
+            <div className={classes.input__name}>
+              <input
+                className={classes.email}
+                autoComplete="off"
+                id="price"
+                value={priceValue}
+                onInput={priceInputHandler}
+                onBlur={priceBlurHandler}
+                type="number"
+                required
+              />
+              <label className={classes.label_email}>
+                <span className={classes.lbl_em_span}>Tour Price</span>
+                <div className={classes.line}></div>
+              </label>
+            </div>
+          )}
+          {props.addTour && (
+            <>
+              <span>ImageCover</span>
+              <ImageUpload mountain sendFile={recieveFile} />
+            </>
+          )}
+          {props.addTour && (
+            <div className={classes.input__name}>
+              <input
+                className={classes.email}
+                autoComplete="off"
+                id="tourName"
+                value={summaryValue}
+                onInput={summaryInputHandler}
+                onBlur={summaryBlurHandler}
+                type="text"
+                required
+              />
+              <label className={classes.label_email}>
+                <span className={classes.lbl_em_span}>Summary</span>
+                <div className={classes.line}></div>
+              </label>
+            </div>
+          )}
+          {props.addTour && (
+            <div className={classes.input__name}>
+              <input
+                className={classes.email}
+                autoComplete="off"
+                id="tourName"
+                value={descValue}
+                onInput={descInputHandler}
+                onBlur={descBlurHandler}
+                type="text"
+                required
+              />
+              <label className={classes.label_email}>
+                <span className={classes.lbl_em_span}>Description</span>
+                <div className={classes.line}></div>
+              </label>
+            </div>
+          )}
+
+          {props.addTour && (
+            <>
+              <span>Images</span>
+              <div className="flex__gap__4">
+                <ImageUpload mountain sendFile={recieveFileOne} />
+                <ImageUpload mountain sendFile={recieveFileTwo} />
+                <ImageUpload mountain sendFile={recieveFileThree} />
+              </div>
+            </>
+          )}
 
           {props.signup && (
             <div className={classes.input__name}>
@@ -163,20 +443,22 @@ const Form = (props) => {
             </div>
           )}
           {props.signup && <ImageUpload sendFile={recieveFile} />}
-          <div className={classes.input__pass}>
-            <input
-              autoComplete="off"
-              id="password"
-              value={passwordValue}
-              onInput={passwordInputHandler}
-              onBlur={passwordBlurHandler}
-              type="password"
-              required
-            />
-            <label className={classes.label_pass}>
-              <span className={classes.lbl_pass_span}>Password</span>
-            </label>
-          </div>
+          {props.login || props.signup ? (
+            <div className={classes.input__pass}>
+              <input
+                autoComplete="off"
+                id="password"
+                value={passwordValue}
+                onInput={passwordInputHandler}
+                onBlur={passwordBlurHandler}
+                type="password"
+                required
+              />
+              <label className={classes.label_pass}>
+                <span className={classes.lbl_pass_span}>Password</span>
+              </label>
+            </div>
+          ) : null}
           {props.signup && (
             <div className={classes.input__pass}>
               <input
@@ -193,7 +475,14 @@ const Form = (props) => {
               </label>
             </div>
           )}
-          <button className={classes.btn__cta}>Submit</button>
+
+          <button
+            type="submit"
+            onClick={props.addTour ? submitTourHandler : submitHandler}
+            className={classes.btn__cta}
+          >
+            Submit
+          </button>
         </form>
       </div>
     </>

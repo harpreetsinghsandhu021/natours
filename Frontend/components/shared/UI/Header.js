@@ -21,8 +21,6 @@ const Header = ({ color }) => {
     authCtx.userId && fetchUser();
   }, [authCtx.token]);
 
-  console.log(user);
-
   return (
     <header className={`${color && "header-black-color"} header`}>
       <div className="logo-box">
@@ -31,7 +29,9 @@ const Header = ({ color }) => {
             <img src="/images/logo-black.png" alt="logo" />{" "}
           </Link>
         ) : (
-          <img src="/images/logo.png" alt="logo" />
+          <Link href="/">
+            <img src="/images/logo.png" alt="logo" />
+          </Link>
         )}
       </div>
       <ul className="links">
@@ -40,7 +40,11 @@ const Header = ({ color }) => {
         </li>
 
         <li className="link">
-          <Link href="#">Destination</Link>
+          {user && user.role === "admin" ? (
+            <Link href="/addTour">Add Tour</Link>
+          ) : (
+            <Link href="#">Destination</Link>
+          )}
         </li>
 
         <li className="link">
@@ -56,7 +60,7 @@ const Header = ({ color }) => {
             log Out
           </button>
           <Link className={`link--me`} href="/me">
-            welcome {user.name}
+            welcome {user.role === "admin" ? "admin" : user.name}
             <img
               src={`${process.env.NEXT_PUBLIC_API_URL}/img/users/${user.photo}`}
             />

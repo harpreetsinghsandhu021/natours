@@ -3,7 +3,7 @@
   box-shadow: 0 0 0.4rem rgba(0, 0, 0, 0.236);
   border-radius: 1rem;
   padding: 4rem;
-  width: 45rem;
+  /* width: 45rem; */
   color: #000;
 }
 .form_wrapper h4 {
@@ -13,6 +13,7 @@
 .form_wrapper span {
   padding: 2rem 0;
   display: block;
+  width: 80%;
   font-size: 2rem;
 }
 .form button {
@@ -93,12 +94,16 @@
   transform: translateY(-37%);
   color: var(--btn--color);
 }
-
+.err_input {
+  color: red;
+  border-bottom: 1px solid rgb(149, 32, 32) !important;
+}
 .input__pass input:focus + .label_pass .lbl_pass_span,
 .input__pass input:valid + .label_pass .lbl_pass_span {
   color: var(--btn--color);
   transform: translateY(-37%);
 }
+
 .btn__cta {
   background-color: var(--btn--color) !important;
   padding: 1.6rem 2.8rem;

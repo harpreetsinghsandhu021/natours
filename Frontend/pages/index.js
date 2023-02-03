@@ -5,13 +5,15 @@ import Hero from "@/components/Hero/Hero";
 import SectionCards from "@/components/tourCards/sectionCards";
 import Footer from "@/components/shared/UI/Footer";
 
-export default function Home({ tours }) {
+export default function Home({ tours, count }) {
+  // console.log(tours);
+
   return (
     <>
       <main className={` ${styles.main__home}`}>
         <Header />
         <Hero />
-        <SectionCards tours={tours} />
+        <SectionCards tours={tours} count={count} />
         <Footer />
       </main>
     </>
@@ -26,6 +28,7 @@ export async function getServerSideProps() {
   return {
     props: {
       tours: data.docs,
+      count: data.count,
     },
   };
 }

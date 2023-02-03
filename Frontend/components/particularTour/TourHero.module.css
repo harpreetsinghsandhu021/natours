@@ -28,5 +28,7 @@
 }
 .heading {
   font-size: 5rem;
+  font-family: "Space Grotesk";
+  font-weight: 900;
   text-transform: capitalize;
 }

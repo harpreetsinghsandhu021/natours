@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -41,6 +41,7 @@ body {
 
 body {
   color: #fff;
+  background-color: #000;
   /* background: linear-gradient(to bottom, transparent, #000) #000; */
   font-size: 1.8rem;
   font-family: "Lexend", sans-serif;
@@ -53,6 +54,15 @@ a {
 .main--tour--page {
   background-color: #eff4f9;
   color: #000;
+}
+.main--add-tour {
+  /* background-color: #000; */
+  /* height: min-content; */
+  height: 100%;
+  display: flex;
+  padding-top: 20rem;
+  justify-content: center;
+  align-items: center;
 }
 /* header */
 
@@ -136,16 +146,31 @@ a {
   font-size: 3.4rem;
   text-transform: uppercase;
   text-align: center;
+  z-index: 9999;
+
+  position: absolute;
+  top: -1%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .color--span {
   color: var(--btn--color);
   font-weight: 800;
   padding-right: 0.7rem;
 }
+.err-txt {
+  color: red;
+  text-transform: capitalize;
+}
 .flex {
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+.flex__gap__4 {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
 }
 /* .flex--2 {
   display: flex;

@@ -3,10 +3,36 @@
   padding: 0.8rem;
   border-radius: var(--border-radius);
   color: #000;
+  cursor: pointer;
   transition: all 0.2s ease;
+  position: relative;
+}
+.sumary {
+  height: 8rem;
 }
 .card:hover {
   transform: scale(1.06);
+}
+.svg__icon {
+  position: absolute;
+
+  padding: 1rem;
+  cursor: pointer;
+  background-color: var(--btn--color);
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+.svg__icon__edit {
+  top: 16%;
+  left: 0;
+}
+.svg__icon__del {
+  top: 2%;
+  left: 0;
+}
+.svg__icon svg {
+  font-size: 4rem;
+  fill: #fff;
 }
 .img__box {
   width: 100%;
@@ -20,6 +46,7 @@
 .tour__name {
   font-size: 2.4rem;
   font-weight: bold;
+  text-transform: capitalize;
   padding: 1rem 0;
 }
 .info {

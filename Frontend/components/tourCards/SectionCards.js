@@ -44,7 +44,6 @@ const SectionCards = ({ tours, count }) => {
   }, []);
 
   async function handlePageClick(e) {
-    console.log(e.selected + 1);
     const fetchApi = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/tours?page=${e.selected + 1}`
     );

@@ -6,8 +6,6 @@ import SectionCards from "@/components/tourCards/sectionCards";
 import Footer from "@/components/shared/UI/Footer";
 
 export default function Home({ tours, count }) {
-  // console.log(tours);
-
   return (
     <>
       <main className={` ${styles.main__home}`}>

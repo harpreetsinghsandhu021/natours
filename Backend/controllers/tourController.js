@@ -21,7 +21,7 @@ const upload = multer({
 });
 
 exports.resizeImageCover = catchAsync(async (req, res, next) => {
-  if (!req.files.imageCover || !req.files.images) return next();
+  if (!req.files.imageCover) return next();
 
   req.body.imageCover = `tour-${req.params.id}-${Date.now()}-cover.jpeg`;
 
@@ -31,6 +31,7 @@ exports.resizeImageCover = catchAsync(async (req, res, next) => {
     .jpeg({ quality: 90 })
     .toFile(`public/img/tours/${req.body.imageCover}`);
 
+  if (!req.files.images) return next();
   req.body.images = [];
 
   await Promise.all(

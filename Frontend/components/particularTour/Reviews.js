@@ -36,8 +36,6 @@ const Reviews = ({ tourId, reviews }) => {
 
     const res = await fetchSession.json();
 
-    console.log(window.location.search);
-
     await stripe.redirectToCheckout({
       sessionId: res.session.id,
     });

@@ -91,6 +91,7 @@ a {
 .link--me img {
   width: 6rem;
   margin-left: 2rem;
+  border: 2px solid var(--btn--color);
   height: auto;
   border-radius: 50%;
 }
@@ -123,6 +124,23 @@ a {
   border: 2px solid #fff;
   font-size: 1.8rem;
   background-color: transparent;
+  padding: 1.2rem 2.8rem;
+  color: #fff;
+  border-radius: var(--btn--border-radius);
+}
+.btn--cta {
+  margin-right: 4rem;
+  border: 2px solid #000;
+  font-size: 1.8rem;
+  background-color: transparent;
+  padding: 1.2rem 2.8rem;
+  color: #000;
+  border-radius: var(--btn--border-radius);
+}
+.btn--cta--2 {
+  border: 2px solid #fff;
+  font-size: 1.8rem;
+  background-color: var(--btn--color);
   padding: 1.2rem 2.8rem;
   color: #fff;
   border-radius: var(--btn--border-radius);

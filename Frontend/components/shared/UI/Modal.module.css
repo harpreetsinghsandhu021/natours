@@ -1,6 +1,5 @@
 .modal {
   width: 45rem;
-  background-color: lightblue;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -8,13 +7,19 @@
   z-index: 100;
   padding: 3rem;
   display: flex;
+  box-shadow: 0 0 4rem #000;
   border-radius: 1rem;
   flex-direction: column;
   gap: 1rem;
   align-items: center;
-  background-color: #3d3c3f;
+  background-color: #ffffff;
+  color: #000;
   animation: animate 0.4s ease;
 }
+.btn__wrap {
+  padding-top: 2rem;
+}
+
 @keyframes animate {
   from {
     top: 20%;

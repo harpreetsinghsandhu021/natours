@@ -49,3 +49,39 @@ export const useForm = (validate) => {
     resetHandler,
   };
 };
+
+export const useFormDynamic = (validate, value) => {
+  const initialStateDynamic = {
+    value: value,
+    isTouched: true,
+  };
+  const [inputStateDynamic, dispatch] = useReducer(
+    inputReducer,
+    initialStateDynamic
+  );
+
+  const valueIsValid = validate(initialStateDynamic.value);
+
+  const hasError = !valueIsValid && inputStateDynamic.isTouched;
+
+  const inputHandler = (e) => {
+    dispatch({ type: "Input", value: e.target.value });
+  };
+
+  const blurHandler = () => {
+    dispatch({ type: "Blur" });
+  };
+
+  const resetHandler = () => {
+    dispatch({ type: "Reset" });
+  };
+
+  return {
+    value: inputStateDynamic.value,
+    isValid: valueIsValid,
+    hasError,
+    inputHandler,
+    blurHandler,
+    resetHandler,
+  };
+};

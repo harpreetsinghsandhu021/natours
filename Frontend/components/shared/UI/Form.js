@@ -3,7 +3,7 @@ import classes from "./Form.module.css";
 import Modal from "./Modal";
 import ImageUpload from "./ImageUpload";
 import { AuthContext } from "../context/authContext";
-import { useForm } from "../hooks/useForm";
+import { useForm, useFormDynamic } from "../hooks/useForm";
 import { isEmail, isValidName, isValidText } from "@/utils/validators";
 
 const Form = (props) => {
@@ -50,6 +50,7 @@ const Form = (props) => {
     blurHandler: UsernameBlurHandler,
     resetHandler: UsernameResetHandler,
   } = useForm(isValidText);
+
   const {
     value: tourNameValue,
     isValid: tourNameIsValid,
@@ -194,8 +195,6 @@ const Form = (props) => {
 
     const res = await sendRequest.json();
 
-    console.log(res);
-
     if (res.status === "success") {
       setConfirmShowModal(true);
       tourNameResetHandler();
@@ -205,6 +204,10 @@ const Form = (props) => {
       priceResetHandler();
       summaryResetHandler();
       descResetHandler();
+
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 100);
     }
 
     if (res.status === "fail" || res.status === "error") {
@@ -239,7 +242,9 @@ const Form = (props) => {
       {showscsModal && (
         <Modal method="login" onCancel={cancelHandler} asOverlay />
       )}
-      {showConfirmModal && <Modal confirm onCancel={cancelHandler} asOverlay />}
+      {showConfirmModal && (
+        <Modal method="creating Document" onCancel={cancelHandler} asOverlay />
+      )}
       <div className={classes.form_wrapper}>
         <h4>
           {props.addTour && "add tour"}
@@ -444,36 +449,45 @@ const Form = (props) => {
           )}
           {props.signup && <ImageUpload sendFile={recieveFile} />}
           {props.login || props.signup ? (
-            <div className={classes.input__pass}>
-              <input
-                autoComplete="off"
-                id="password"
-                value={passwordValue}
-                onInput={passwordInputHandler}
-                onBlur={passwordBlurHandler}
-                type="password"
-                required
-              />
-              <label className={classes.label_pass}>
-                <span className={classes.lbl_pass_span}>Password</span>
-              </label>
-            </div>
+            <>
+              <div className={classes.input__pass}>
+                <input
+                  autoComplete="off"
+                  id="password"
+                  value={passwordValue}
+                  onInput={passwordInputHandler}
+                  onBlur={passwordBlurHandler}
+                  type="password"
+                  required
+                />
+                <label className={classes.label_pass}>
+                  <span className={classes.lbl_pass_span}>Password</span>
+                </label>
+              </div>
+              {passwordHasError && (
+                <p className="err-txt">The above field field is necessary</p>
+              )}
+            </>
           ) : null}
           {props.signup && (
-            <div className={classes.input__pass}>
-              <input
-                autoComplete="off"
-                id="passwordConfirm"
-                value={passwordConfirmValue}
-                onInput={passwordConfirmInputHandler}
-                onBlur={passwordConfirmBlurHandler}
-                type="password"
-                required
-              />
-              <label className={classes.label_pass}>
-                <span className={classes.lbl_pass_span}>Confirm Password</span>
-              </label>
-            </div>
+            <>
+              <div className={classes.input__pass}>
+                <input
+                  autoComplete="off"
+                  id="passwordConfirm"
+                  value={passwordConfirmValue}
+                  onInput={passwordConfirmInputHandler}
+                  onBlur={passwordConfirmBlurHandler}
+                  type="password"
+                  required
+                />
+                <label className={classes.label_pass}>
+                  <span className={classes.lbl_pass_span}>
+                    Confirm Password
+                  </span>
+                </label>
+              </div>
+            </>
           )}
 
           <button

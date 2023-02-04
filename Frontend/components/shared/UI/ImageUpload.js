@@ -6,6 +6,34 @@ const ImageUpload = (props) => {
   const [file, setFile] = useState();
   const [previewUrl, setPreviewUrl] = useState();
 
+  function FilePicker() {
+    if (props.update) {
+      return props.mountain ? (
+        <img
+          src={`${
+            previewUrl
+              ? previewUrl
+              : `${process.env.NEXT_PUBLIC_API_URL}/img/tours/${props.image}`
+          } `}
+        />
+      ) : (
+        <img
+          src={`${
+            previewUrl
+              ? previewUrl
+              : `${process.env.NEXT_PUBLIC_API_URL}/img/tours/${props.image}`
+          } `}
+        />
+      );
+    } else {
+      return props.mountain ? (
+        <img src={`${previewUrl ? previewUrl : "/images/default-m.jpg"} `} />
+      ) : (
+        <img src={`${previewUrl ? previewUrl : "/images/defa.png"} `} />
+      );
+    }
+  }
+
   useEffect(() => {
     if (!file) return;
 
@@ -42,11 +70,7 @@ const ImageUpload = (props) => {
           fileUplRef.current.click();
         }}
       >
-        {props.mountain ? (
-          <img src={`${previewUrl ? previewUrl : "/images/default-m.jpg"} `} />
-        ) : (
-          <img src={`${previewUrl ? previewUrl : "/images/defa.png"} `} />
-        )}
+        <FilePicker />
       </button>
     </div>
   );

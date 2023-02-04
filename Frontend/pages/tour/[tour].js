@@ -15,16 +15,6 @@ const LexendFont = Lexend({
   subsets: ["latin"],
 });
 const tour = ({ tour }) => {
-  const router = useRouter();
-  const authCtx = useContext(AuthContext);
-  useEffect(() => {
-    let isLoggedIn = getCookie("token");
-
-    if (!isLoggedIn) {
-      router.push("/");
-    }
-  }, []);
-
   return (
     <>
       <Head></Head>
@@ -38,6 +28,15 @@ const tour = ({ tour }) => {
 };
 
 export async function getServerSideProps(context) {
+  const token = context.req.cookies["token"];
+
+  if (!token)
+    return {
+      redirect: {
+        destination: "/login",
+      },
+    };
+
   const fetchApi = await fetch(
     `${process.env.API_URL}/api/tours?slug=${context.query.tour}`
   );

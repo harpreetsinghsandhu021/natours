@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Wrapper from "../shared/components/Wrapper";
 import gsap from "gsap";
+import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import classes from "./SectionCard.module.css";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import ReactPaginate from "react-paginate";
 import Card from "./Card";
 
@@ -12,20 +12,6 @@ gsap.registerPlugin(ScrollTrigger);
 const SectionCards = ({ tours, count }) => {
   const [data, setData] = useState(tours);
   useEffect(() => {
-    // gsap.to(
-    //   "#section--cards",
-    //   {
-    //     y: "-60%",
-    //     duration: 10,
-    //     zIndex: 9999,
-    //     scrollTrigger: {
-    //       trigger: "#section--cards",
-    //       scrub: true,
-    //       start: "0 0",
-    //     },
-    //   },
-    //   "-=10"
-    // );
     // gsap.fromTo(
     //   "#hero--section--heading",
     //   {
@@ -53,10 +39,14 @@ const SectionCards = ({ tours, count }) => {
     data && setData(data.docs);
   }
 
+  function filter(id) {
+    setData(data.filter((tour) => tour.id !== id));
+  }
+
   return (
     <>
       <section
-        style={{ padding: "8rem 0", position: "relative" }}
+        style={{ padding: "18rem 0", position: "relative" }}
         id="section--cards"
       >
         <h3 id="hero--section--heading" className="hero--heading">
@@ -64,7 +54,7 @@ const SectionCards = ({ tours, count }) => {
         </h3>
         <Wrapper>
           {data.map((tour) => {
-            return <Card tour={tour} />;
+            return <Card filter={filter} tour={tour} />;
           })}
         </Wrapper>
         <ReactPaginate

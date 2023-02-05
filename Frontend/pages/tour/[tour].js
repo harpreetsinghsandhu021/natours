@@ -17,7 +17,6 @@ const LexendFont = Lexend({
 const tour = ({ tour }) => {
   return (
     <>
-      <Head></Head>
       <main className={`main--tour--page`}>
         <Header color="#000" />
         <Tour tour={tour} />

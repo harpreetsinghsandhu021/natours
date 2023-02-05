@@ -22,7 +22,7 @@ const Hero = () => {
     });
     tl.to(img2.current, { y: "-10%", duration: 10 });
     tl.to(img3.current, { duration: 10, y: "-10%" });
-    tl.to(img1.current, { y: "2%", duration: 10 });
+    tl.to(img1.current, { y: "6%", duration: 10 });
     tl.to(box.current, { y: "-100%", duration: 10 });
   }, []);
 

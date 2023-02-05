@@ -55,6 +55,8 @@ const UpdateForm = (props) => {
   }
 
   async function submitHandler() {
+    console.log(diff);
+
     const formData = new FormData();
 
     formData.append("name", tourName);

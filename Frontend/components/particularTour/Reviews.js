@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./Reviews.module.css";
 import Slider from "react-slick";
 import { useContext } from "react";
@@ -6,13 +6,15 @@ import ReactStars from "react-stars";
 import { AuthContext } from "../shared/context/authContext";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { loadStripe } from "@stripe/stripe-js";
-import { useStripe } from "@stripe/react-stripe-js";
-
 const Reviews = ({ tourId, reviews }) => {
-  const stripePromise = loadStripe(
-    "pk_test_51MVDk7SJNwQAwY18RyrcY6kczVockBitNLL4Jl0h3CBd5K6hfgkObhnOpcyQJvKiW0XlaGGbkknZwXaSVHcAbMy600J71A0uJ8"
-  );
+  const [stripe, setStripe] = useState();
+
+  useEffect(() => {
+    const stripe = window.Stripe(
+      "pk_test_51MVDk7SJNwQAwY18RyrcY6kczVockBitNLL4Jl0h3CBd5K6hfgkObhnOpcyQJvKiW0XlaGGbkknZwXaSVHcAbMy600J71A0uJ8"
+    );
+    setStripe(stripe);
+  }, []);
 
   const authCtx = useContext(AuthContext);
   const settings = {
@@ -36,9 +38,11 @@ const Reviews = ({ tourId, reviews }) => {
 
     const res = await fetchSession.json();
 
-    await stripe.redirectToCheckout({
-      sessionId: res.session.id,
-    });
+    if (res) {
+      const checkout = await stripe.redirectToCheckout({
+        sessionId: res.session.id,
+      });
+    }
   }
 
   return (

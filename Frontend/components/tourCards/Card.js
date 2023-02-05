@@ -12,20 +12,36 @@ import { AiTwotoneFlag, AiFillDelete, AiFillEdit } from "react-icons/ai";
 import moment from "moment";
 import { GoPerson } from "react-icons/go";
 
-const Card = ({ tour }) => {
+const Card = ({ filter, tour }) => {
   const [showModal, setShowModal] = useState(false);
   const authCtx = useContext(AuthContext);
   const router = useRouter();
 
-  function deleteTour(id) {}
+  function deleteTour() {
+    console.log(tour.id);
+  }
 
   function closeError() {
     setShowModal(false);
   }
 
+  function filterOut(id) {
+    filter(id);
+  }
+
   return (
     <>
-      {showModal && <Modal asOverlay confirm onCancel={closeError} />}
+      {showModal && (
+        <Modal
+          id={tour.id}
+          delete
+          asOverlay
+          bg="#fff"
+          filterOut={filterOut}
+          confirm
+          onCancel={closeError}
+        />
+      )}
       <div className={classes.card}>
         {authCtx.userRole === "admin" && (
           <span

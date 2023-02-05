@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import classes from "./Modal.module.css";
 import { TiTick } from "react-icons/ti";
 import { GiCrossMark } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
+import { AuthContext } from "../context/authContext";
 
 const Modal = (props) => {
+  const authCtx = useContext(AuthContext);
   if (props.error) {
     return (
       <>
         {props.asOverlay && (
           <div
+            style={{ backgroundColor: `${props.bg}` }}
             onClick={() => props.onCancel()}
             className={classes.overlay}
           ></div>
@@ -29,11 +32,31 @@ const Modal = (props) => {
     );
   }
 
+  async function deleteHandler() {
+    const sendRequest = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/tours/${props.id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${authCtx.token}`,
+        },
+      }
+    );
+
+    const res = await sendRequest.text();
+
+    if (sendRequest.ok) {
+      props.filterOut(props.id);
+      props.onCancel();
+    }
+  }
+
   if (props.confirm) {
     return (
       <>
         {props.asOverlay && (
           <div
+            style={{ backgroundColor: `${props.bg}` }}
             onClick={() => props.onCancel()}
             className={classes.overlay}
           ></div>
@@ -51,6 +74,7 @@ const Modal = (props) => {
           />
           <div className={classes.btn__wrap}>
             <button
+              onClick={props.delete && deleteHandler}
               className={`btn--cta ${classes.btn__cta} ${classes.btn__cnf}`}
             >
               Confirm
@@ -66,33 +90,14 @@ const Modal = (props) => {
     );
   }
 
-  if (props.confirm) {
-    return (
-      <>
-        {props.asOverlay && (
-          <div
-            onClick={() => props.onCancel()}
-            className={classes.overlay}
-          ></div>
-        )}
-        <div className={classes.modal}>
-          <TiTick fill="#57d6bf" className={classes.scs_svg} />
-          <div className={classes.modal__cnt}>
-            <h4>tour created succesfully.</h4>
-          </div>
-          <ImCross
-            onClick={() => props.onCancel()}
-            className={classes.cncl__btn}
-          />
-        </div>
-      </>
-    );
-  }
-
   return (
     <>
       {props.asOverlay && (
-        <div onClick={() => props.onCancel()} className={classes.overlay}></div>
+        <div
+          style={{ backgroundColor: `${props.bg}` }}
+          onClick={() => props.onCancel()}
+          className={classes.overlay}
+        ></div>
       )}
       <div className={classes.modal}>
         <TiTick fill="#57d6bf" className={classes.scs_svg} />

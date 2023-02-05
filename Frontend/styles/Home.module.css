@@ -2,7 +2,7 @@
   background: linear-gradient(to bottom, transparent, #000) #000;
 }
 .main__login {
-  min-height: 100vh;
+  min-height: 110vh;
   display: flex;
   align-items: center;
   justify-content: center;

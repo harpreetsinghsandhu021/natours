@@ -46,7 +46,13 @@ body {
   font-size: 1.8rem;
   font-family: "Lexend", sans-serif;
 }
-
+button {
+  transition: all 0.4s ease;
+}
+button:hover {
+  transform: translateY(-0.4rem);
+  cursor: pointer;
+}
 a {
   color: inherit;
   text-decoration: none;
@@ -91,17 +97,14 @@ a {
 .link--me img {
   width: 6rem;
   margin-left: 2rem;
-  border: 2px solid var(--btn--color);
+  border: 3px solid var(--btn--color);
   height: auto;
   border-radius: 50%;
 }
 .links .link {
   padding-left: 4rem;
-  color: transparent;
-  mix-blend-mode: difference;
-  background-color: #fff;
-  -webkit-background-clip: text;
-  mix-blend-mode: difference;
+  color: inherit;
+  mix-blend-mode: multiply;
 }
 .links .link:hover {
   color: var(--btn--color);

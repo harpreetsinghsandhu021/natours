@@ -4,7 +4,9 @@ import TourHero from "./TourHero";
 import TourInfo from "./TourInfo";
 import Reviews from "./Reviews";
 import TourMap from "./Map";
+import dynamic from "next/dynamic";
 
+const DynamicReviews = dynamic(() => import("./Reviews"), { ssr: false });
 const Tour = ({ tour }) => {
   return (
     <>
@@ -23,7 +25,7 @@ const Tour = ({ tour }) => {
           guides={tour[0].guides}
         />
         {/* <TourMap /> */}
-        <Reviews tourId={tour[0].id} reviews={tour[0].reviews} />
+        <DynamicReviews tourId={tour[0].id} reviews={tour[0].reviews} />
       </section>
     </>
   );

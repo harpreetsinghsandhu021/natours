@@ -237,13 +237,24 @@ const Form = (props) => {
   return (
     <>
       {showErrorModal && (
-        <Modal onCancel={cancelHandler} asOverlay error message={error} />
+        <Modal
+          onCancel={cancelHandler}
+          asOverlay
+          bg="#000"
+          error
+          message={error}
+        />
       )}
       {showscsModal && (
-        <Modal method="login" onCancel={cancelHandler} asOverlay />
+        <Modal method="login" bg="#000" onCancel={cancelHandler} asOverlay />
       )}
       {showConfirmModal && (
-        <Modal method="creating Document" onCancel={cancelHandler} asOverlay />
+        <Modal
+          method="creating Document"
+          bg="#fff"
+          onCancel={cancelHandler}
+          asOverlay
+        />
       )}
       <div className={classes.form_wrapper}>
         <h4>
